@@ -1,30 +1,43 @@
-
+@use "colors";
 
 /* import fonts */
-@import url('https://fonts.googleapis.com/css2?family=Macondo&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Macondo&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+// html {
+//   cursor: none;
+// }
+
+$background: colors.color("background");
+$foreground: colors.color("lightest-foreground");
+
 :root {
-  --background: #12151C;
-  --foreground: #ffffff;
-  --transition: all 3s ease-in-out;
+  text-size-adjust: 100%;
 }
 
 body, html {
-  font-family: 'Macondo', cursive;
+  font-family: 'SF Pro Text', sans-serif;;
+  font-weight: 400;
   font-size: clamp(12px, 3vw, 40px);
-
-  background: var(--background);
-  color: var(--foreground);
+  background: $background;
+  color: $foreground;
   height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 20px;
   justify-content: center;
   align-items: center;
   position: relative;
   max-width: 100vw;
   max-height: 100vh;
   overflow: hidden;
+  position: relative;
 }
 
 $colors: (
@@ -37,36 +50,35 @@ $colors: (
   "pastel": #fdfd96,
 );
 
+.blur {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(100px);
+  z-index: 2;
+}
+
 #tracker {
   position: absolute;
   top: calc(50% - 200px);
   left: calc(50% - 200px);
-  width: 400px;
-  height: 400px;
+  width: min(500px, 50vw);
+  aspect-ratio: 1/1;
   background: linear-gradient(
     to right,
     dodgerblue,
-    crimson,
+    colors.color("ochre"),
     #ffd074,
     magenta,
-    mediumpurple,
-
+    colors.color("secondary-highlight"),
   );
   border-radius: 50%;
   z-index: 1;
   pointer-events: none;
   animation: rotate 10s ease-in-out infinite;
-
-  &::after {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    border-radius: 50%;
-    backdrop-filter: blur(50px);
-  }
+  filter: blur(100px);
 }
 
 @keyframes rotate {
@@ -80,7 +92,7 @@ $colors: (
 
 .logo {
   // svg credits: https://www.svgrepo.com/svg/448218/digital-ocean
-  background-image: url('img/digital-ocean.svg');
+  background-image: url('src/img/logo.svg');
   width: 100px;
   height: 100px;
   background-repeat: no-repeat;
@@ -88,10 +100,36 @@ $colors: (
 }
 
 :is(.logo, #main) {
-  z-index: 2;
+  z-index: 3;
   pointer-events: none;
 }
 
-:root {
-  text-size-adjust: 100%;
+@font-face {
+  font-family: 'SF Pro Text';
+  src: url("/fonts/SF-Pro/SF-Pro-Text-Regular.otf");
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+// SF Mono
+@font-face {
+  font-family: 'SF Mono';
+  src: url("/fonts/SF-Mono/SFMono-Regular.otf");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SF Mono';
+  src: url("/fonts/SF-Mono/SFMono-Medium.otf");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SF Mono';
+  src: url("/fonts/SF-Mono/SFMono-Bold.otf");
+  font-weight: 700;
+  font-style: normal;
 }
