@@ -90,16 +90,7 @@ $colors: (
   }
 }
 
-.logo {
-  // svg credits: https://www.svgrepo.com/svg/448218/digital-ocean
-  background-image: url('src/img/logo.svg');
-  width: 100px;
-  height: 100px;
-  background-repeat: no-repeat;
-  background-size: contain;
-}
-
-:is(.logo, #main) {
+:is(#main) {
   z-index: 3;
   // pointer-events: none;
 }
