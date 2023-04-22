@@ -1,11 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './style.scss';
 import {
   BrowserRouter, Routes, Route, NavLink, useParams,
 } from 'react-router-dom';
+import { produce } from 'immer';
 
 function App() {
+  const [notes, setNotes] = useState({});
+
+  const addNote = (newNote) => {
+    setNotes(
+      produce((draft) => {
+        draft[newNote.id] = newNote;
+      }),
+    );
+  };
+
+  const deleteNote = (id) => {
+    setNotes(
+      produce((draft) => {
+        delete draft[id];
+      }),
+    );
+  };
+
+  const updateNote = (id, updates) => {
+    setNotes(
+      produce((draft) => {
+        draft[id] = { ...draft[id], ...updates };
+      }),
+    );
+  };
+
   return (
     <BrowserRouter>
       <div className="app-container">
