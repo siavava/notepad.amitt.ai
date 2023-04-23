@@ -22,7 +22,7 @@ function App() {
   useEffect(() => {
     const highestZ = Math.max(...Object.values(notes).map((note) => note.z));
     setHighestZIndex(highestZ);
-    console.log(`highestZIndex is now ${highestZIndex}`);
+    // console.log(`highestZIndex is now ${highestZIndex}`);
   }, [notes]);
 
   // useEffect(() => {
