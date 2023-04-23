@@ -29,16 +29,7 @@ export default function Note(props) {
     updateNote(id, { text: newText });
   };
 
-  const updatePosition = (newPosition) => {
-    updateNote(id, { x: newPosition.x, y: newPosition.y });
-  };
-
-  const handleStartDrag = () => {
-    updateNote(id, { z: note.z + 1 });
-  };
-
   const handleDrag = (e, data) => {
-    // updatePosition(id, { x: data.x, y: data.y });
     updateNote(id, { x: data.x, y: data.y });
   };
 
@@ -51,16 +42,14 @@ export default function Note(props) {
     });
   };
 
-  // const handleStopDrag = () => {
-  //   updatePosition(id, { x: data.x, y: data.y })
-  // };
-
-  const handleDelete = () => {
-    updateNote(id, { deleted: true });
-  };
-
   const finishEditing = () => {
     setIsEditing(false);
+  };
+
+  const elevate = () => {
+    if (note.z !== props.highestZIndex) {
+      updateNote(id, { z: props.highestZIndex + 1 });
+    }
   };
 
   return (
@@ -69,11 +58,12 @@ export default function Note(props) {
       position={{ x: note.x, y: note.y }}
       minWidth="300px"
       minHeight="300px"
-      // enableUserSelectHack={false}
-      // onDragStop={handleDrag}
       onDrag={handleDrag}
       onResize={handleResize}
+      onDragStart={elevate}
+      onResizeStart={elevate}
       className="note"
+      style={{ zIndex: note.z }}
     >
       {isEditing ? (
         <>
