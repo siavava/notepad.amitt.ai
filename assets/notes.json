@@ -1,0 +1,20 @@
+{
+  "1" : {
+    "title": "testing",
+    "text": "I is a note",
+    "x": 50,
+    "y": 50,
+    "z": 26,
+    "width": 300,
+    "height": 300
+  },
+  "2": {
+    "title": "testing2",
+    "text": "I is another note",
+    "x": 420,
+    "y": 73,
+    "z": 26,
+    "width": 400,
+    "height": 500
+  }
+}

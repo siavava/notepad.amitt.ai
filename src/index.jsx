@@ -1,90 +1,85 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import './style.scss';
-import {
-  BrowserRouter, Routes, Route, NavLink, useParams,
-} from 'react-router-dom';
 import { produce } from 'immer';
+import $ from 'jquery';
+import NewNoteBar from './new_note_bar';
+
+import Note from './note';
 
 function App() {
   const [notes, setNotes] = useState({});
 
-  const addNote = (newNote) => {
-    setNotes(
-      produce((draft) => {
-        draft[newNote.id] = newNote;
-      }),
+  useEffect(() => {
+    $.getJSON('assets/notes.json').then(
+      (data) => {
+        setNotes(data);
+      },
     );
-  };
-
-  const deleteNote = (id) => {
-    setNotes(
-      produce((draft) => {
-        delete draft[id];
-      }),
-    );
-  };
-
-  const updateNote = (id, updates) => {
-    setNotes(
-      produce((draft) => {
-        draft[id] = { ...draft[id], ...updates };
-      }),
-    );
-  };
+  }, []);
 
   return (
-    <BrowserRouter>
-      <div className="app-container">
-        <Nav />
-        <Routes>
-          <Route path="/" element={<Welcome />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/test/:id" element={<Test />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
+    <div className="app-container">
+      <Notes notes={notes} setNotes={setNotes} />
+    </div>
   );
 }
 
 const root = createRoot(document.getElementById('main'));
 root.render(<App />);
 
-function About(props) {
-  return <div className="route-text"> All there is to know about me </div>;
-}
+function Notes(props) {
+  const { notes, setNotes } = props;
 
-function Welcome(props) {
-  return <div className="route-text"> Welcome to my site. </div>;
-}
+  const addNote = ({ title, text }) => {
+    const newId = Math.max(...Object.keys(notes).map((id) => parseInt(id, 10))) + 1;
+    const fullNote = {
+      // ...newNote, // title, text
+      title,
+      text,
+      x: 50,
+      y: 50,
+      z: 1,
+      width: 200,
+      height: 200,
+    };
+    setNotes(
+      produce((draft) => {
+        draft[newId] = fullNote;
+      }),
+    );
+  };
 
-function Nav(props) {
+  const deleteNote = (id) => {
+    console.log(`deleted note ${id}`);
+    const deleter = produce((draft) => {
+      delete draft[id];
+    });
+    setNotes(deleter);
+  };
+
+  const updateNote = (id, updates) => {
+    const updater = produce((draft) => {
+      draft[id] = { ...draft[id], ...updates };
+    });
+    setNotes(updater);
+  };
+
   return (
-    <nav className="nav">
-      <ul className="nav-links">
-        <li><NavLink className="nav-link" to="/">Home</NavLink></li>
-        <li><NavLink className="nav-link" to="/about">About</NavLink></li>
-        <li><NavLink className="nav-link" to="/test/id1">test id1</NavLink></li>
-        <li><NavLink className="nav-link" to="/test/id2">test id2</NavLink></li>
-      </ul>
-    </nav>
+    <div className="notes-container">
+      <NewNoteBar addNote={addNote} />
+      <div className="notes">
+        {Object.entries(notes).map(([id, note]) => (
+          <Note
+            key={id}
+            id={id}
+            note={note}
+            updateNote={updateNote}
+            deleteNote={() => deleteNote(id)}
+            style={{ x: note.x, y: note.y, zIndex: note.z }}
+          />
+        ))}
+      </div>
+    </div>
   );
 }
-
-function Test(props) {
-  const { id } = useParams();
-  return <div className="route-text"> This is a test route with ID {id} </div>;
-}
-
-// code to follow mouse... from ported from the starter.
-const tracker = document.getElementById('tracker');
-document.body.onpointermove = (event) => {
-  const { pageX, pageY } = event;
-  tracker.animate({
-    top: `${pageY - 200}px`,
-    left: `${pageX - 200}px`,
-  }, {
-    duration: 3000,
-    fill: 'forwards',
-  }, 'ease-in-out');
-};

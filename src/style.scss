@@ -9,12 +9,10 @@
   box-sizing: border-box;
 }
 
-// html {
-//   cursor: none;
-// }
-
-$background: colors.color("background");
-$foreground: colors.color("light-foreground");
+:is(input, textarea) {
+  border: none;
+  outline: none;
+}
 
 :root {
   text-size-adjust: 100%;
@@ -24,8 +22,8 @@ body, html {
   font-family: 'SF Pro Text', sans-serif;;
   font-weight: 400;
   font-size: clamp(12px, 3vw, 40px);
-  background: $background;
-  color: $foreground;
+  background:colors.color("background");
+  color: colors.color("light-foreground");
   height: 100%;
   width: 100%;
   display: flex;
@@ -40,133 +38,155 @@ body, html {
   position: relative;
 }
 
-$colors: (
-  "teal": #00ffd9,
-  "purple": #a374ff,
-  "khaki": #ffd074,
-  "white": #ecf7fa,
-  "black": #050505,
-  "ochre": #ff4e20,
-  "pastel": #fdfd96,
-);
-
-.blur {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  backdrop-filter: blur(100px);
-  z-index: 2;
-}
-
-#tracker {
-  position: absolute;
-  top: calc(50% - 200px);
-  left: calc(50% - 200px);
-  width: min(500px, 50vw);
+.note-action {
+  // display: flex;
+  // flex-direction: row;
+  // gap: 5px;
+  align-items: center;
+  cursor: pointer;
+  background: none;
+  border: none;
+  width: 30px;
   aspect-ratio: 1/1;
-  background: linear-gradient(
-    to right,
-    dodgerblue,
-    colors.color("ochre"),
-    #ffd074,
-    magenta,
-    colors.color("secondary-highlight"),
-  );
+  background: rgba(255, 255, 255, 0.1);
+  color: colors.color("secondary-highlight");
   border-radius: 50%;
-  z-index: 1;
-  pointer-events: none;
-  animation: rotate 10s ease-in-out infinite;
-  filter: blur(100px);
-}
-
-@keyframes rotate {
-  to {
-    rotate: 360deg;
+  display: flex;
+  place-content: center; 
+  
+  .icon {
+    color: yellow;
+    fill: yellow;
+    stroke: yellow;
+    width: 80%;
   }
-  from {
-    rotate: 0deg;
-  }
-}
 
-:is(#main) {
-  z-index: 3;
-  // pointer-events: none;
 }
-
 
 
 .app-container {
   background: colors.color("background");
-  margin: 30px;
-  padding: 30px;
   border-radius: 10px;
-  width: clamp(350px, 50vw, 500px);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
 
-  .nav {
-    margin-bottom: 20px;
-    padding: 20px;
+  .notes-container {
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+    gap: 50px;
+    display: flex;
 
-    .nav-links {
+    #new-note-bar {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      width: clamp(200px, 80%, 720px);
+      height: clamp(50px, fit-content, 100px);
+      padding: 20px 10px 0 10px;
+      margin-top: 70px;
+      border-radius: 10px;
+      background: colors.color("light-background");
 
-
-      li {
-        list-style: none;
+      & > * {
+        padding: 10px;
+      }
+  
+      .new-note-title {
         width: 100%;
-        position: relative;
-        margin: 10px 0;
-        padding: 0 10px;
-  
-  
+        // height: 100%;
+        color: colors.color("light-foreground");
+        background: none;
+        margin-bottom: 10px;
+        border-bottom: 1px solid colors.color("light-foreground");
+        // top: 100px;
+        // left: 100px;
+      }
+      .new-note-text {
+        width: 100%;
+        height: 100%;
+        background: none;
+        color: colors.color("light-foreground");
+        padding: 10px;
+        margin-top: 20px;
+        border-bottom: 1px dotted colors.color("light-foreground");
+      }
+
+      .note-actions {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        // position: absolute;
+        bottom: 10px;
+        width: fit-content;
+        margin-left: 20px;
+        // background: red;
+        margin-left: auto;
+
         
-        &::after {
-          content: "";
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 100%;
-          height: 1px;
-          background: rgba(colors.color("secondary-highlight"), 0.4);
-          transition: all 0.5s ease-out;
-          pointer-events: none;
-        }
-  
-        &:hover::after {
-          height: calc(0.5rem + 10px);
-        }
-  
-        .nav-link {
-          color: colors.color("light-foreground");
-          text-decoration: none;
-          line-height: 1.5;
-          text-transform: uppercase;
-          font-size: 0.5rem;
-          font-family: 'SF Mono', monospace;
-          font-weight: 600;
-          display: block;
-          width: 100%;
-  
-          &.active {
-            color: colors.color("primary-highlight");
-          }
-        }
       }
     }
+    .notes {
+      background: colors.color("background");
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      // place-items: center;
+      position: relative;
+      // background: red;
+  
+    
+      .note {
+        background: colors.color("light-background");
+        color: colors.color("light-foreground");
+        border-radius: 10px;
+        position: absolute;
+        display: flex;
+        flex-direction: column;
 
-  }
 
-  .route-text {
-    color: colors.color("lightest-foreground");
-    // font-family: 'SF Mono', monospace;
-    font-weight: 600;
-    font-size: clamp(10px, 0.7rem, 20px);
-    text-align: center;
-    margin-bottom: 10px;
+        & > :not(.note-actions) {
+          padding: 0 20px;
+        }
+        
+        .note-title {
+          font-size: 18px;
+          font-weight: 700;
+          margin-bottom: 10px;
+          color: colors.color("secondary-highlight");
+          text-transform: uppercase;
+          font-weight: 600;
+          margin-bottom: 20px;
+          background: colors.color("lightest-background");
+          padding: 10px;
+        }
+
+        .note-text {
+          font-size: 14px;
+          font-weight: 400;
+          margin-bottom: 10px;
+          width: 100%;
+          // height: 100%;
+          // background: colors.color("lightest-background");
+          pointer-events: all;
+        }
+
+        .note-actions {
+          display: flex;
+          flex-direction: row;
+          gap: 10px;
+          position: absolute;
+          bottom: 10px;
+          width: fit-content;
+          margin-left: 20px;
+
+          
+        }
+      }
+      
+    }
   }
+  
 }
 
 @font-face {
