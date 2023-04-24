@@ -42,6 +42,12 @@ export default function NewNoteBar(props) {
       { title
       && (
       <div className="note-actions">
+        {
+          /* note: I kept getting a warning from  eslint that
+          specifying `type` implicitly specifies role,
+          hence I shouldn't specify role unless
+          it is different from type. */
+        }
         <button className="note-action" type="button" onClick={saveNote}>
           <img src="/images/add-note.svg" className="icon" alt="add note" />
         </button>

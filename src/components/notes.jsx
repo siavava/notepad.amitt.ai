@@ -105,6 +105,7 @@ export default function Notes(props) {
             key={id}
             id={id}
             note={note}
+            tabIndex={`${id}`}
             updateNote={updateNote}
             deleteNote={() => deleteNote(id)}
             style={{ x: note.x, y: note.y, zIndex: note.z }}
