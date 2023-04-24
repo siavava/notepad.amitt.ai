@@ -46,10 +46,10 @@ function NewNoteBar(props) {
       && (
       <div className="note-actions">
         <button className="note-action" type="button" onClick={saveNote}>
-          <img src="assets/add-note.svg" className="icon" alt="add note" />
+          <img src="/images/add-note.svg" className="icon" alt="add note" />
         </button>
         <button className="note-action" type="button" onClick={clearFields}>
-          <img src="assets/cancel-add-note.svg" className="icon" alt="cancel" />
+          <img src="/images/cancel-add-note.svg" className="icon" alt="cancel" />
         </button>
       </div>
       )}
