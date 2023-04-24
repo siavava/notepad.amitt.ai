@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './style.scss';
 // import { produce } from 'immer';
-import NewNoteBar from './NewNoteBar';
-import * as datastore from './services/datastore';
+import NewNoteBar from './new-note-bar';
+import Note from './note';
 
-import Note from './Note';
+import * as datastore from './services/datastore';
 
 export default function Notes(props) {
   const [notes, setNotes] = useState({});
