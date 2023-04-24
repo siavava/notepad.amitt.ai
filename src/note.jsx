@@ -1,32 +1,20 @@
 import React, { useState } from 'react';
 // import Draggable from 'react-draggable';
-import { Rnd } from 'react-rnd';
+import { Rnd } from 'react-rnd'; // supports dragging AND resizing
 import ReactMarkdown from 'react-markdown';
 import TextareaAutosize from 'react-textarea-autosize';
 
 export default function Note(props) {
-  // const {
-  //   title, text, x, y, z, handleUpdate, handleDelete,
-  // } = note;
-  // console.log(note);
   const {
     id, note, updateNote, deleteNote,
   } = props;
   const [isEditing, setIsEditing] = useState(false);
-  // const [noteTitle, setNoteTitle] = useState(title);
-  // const [noteText, setNoteText] = useState(text);
-  // const [notePosition, setNotePosition] = useState({ x, y, z });
-
-  // const sendUpdate = () => {
-  //   handleUpdate(note.id, { title: noteTitle, text: noteText, ...notePosition });
-  // };
 
   const updateTitle = (newTitle) => {
     updateNote(id, { title: newTitle });
   };
 
   const updateText = (newText) => {
-    console.log(`updating text from ${note.text} to ${newText}`);
     updateNote(id, { text: newText });
   };
 
@@ -43,10 +31,16 @@ export default function Note(props) {
     });
   };
 
+  /**
+   * Sets editing mode to false.
+   */
   const finishEditing = () => {
     setIsEditing(false);
   };
 
+  /**
+   * Brings the note to the front of the stack.
+   */
   const elevate = () => {
     if (note.z !== props.highestZIndex) {
       updateNote(id, { z: props.highestZIndex + 1 });
@@ -63,7 +57,7 @@ export default function Note(props) {
       onResize={handleResize}
       onDragStart={elevate}
       onResizeStart={elevate}
-      className="note"
+      className={props.highlighted ? 'note highlighted' : 'note'}
       style={{ zIndex: note.z }}
       id={id}
     >

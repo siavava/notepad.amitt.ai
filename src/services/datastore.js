@@ -29,15 +29,28 @@ export function onNotesValueChange(callback) {
   });
 }
 
+/**
+ * Saves a **new** note to the database.
+ * @param {*} note: the note to save.
+ */
 export function addNote(note) {
   firebase.database().ref('notes').push(note);
 }
 
-export function updateNote(id, note) {
+/**
+ * Updates an existing note in the database.
+ * @param {string} id: the id of the note to update.
+ * @param {*} updates: the updates to apply.
+ */
+export function updateNote(id, updates) {
   // update only the fields that are passed in the note object
-  firebase.database().ref('notes').child(id).update(note);
+  firebase.database().ref('notes').child(id).update(updates);
 }
 
-export function deleteNote(noteId) {
-  firebase.database().ref('notes').child(noteId).remove();
+/**
+ * Delete an existing note from the database.
+ * @param {*} id: the id of the note to delete.
+ */
+export function deleteNote(id) {
+  firebase.database().ref('notes').child(id).remove();
 }

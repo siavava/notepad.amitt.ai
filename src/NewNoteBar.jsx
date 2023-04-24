@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
-import $ from 'jquery';
 
 // Why does ESLINT complain if this is an arrow function?
-function NewNoteBar(props) {
+export default function NewNoteBar(props) {
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
   const onTitleChange = (event) => {
@@ -30,9 +29,7 @@ function NewNoteBar(props) {
   };
 
   const focusOn = (id) => () => {
-    console.log(`focusing on ${id}`);
     const note = document.getElementById(`${id}`); // .focus();
-    console.log(note);
     note.focus();
   };
 
@@ -68,5 +65,3 @@ function NewNoteBar(props) {
     </div>
   );
 }
-
-export default NewNoteBar;
