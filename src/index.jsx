@@ -1,7 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import './style.scss';
-import Notes from './notes';
+import Notes from './components/notes';
 
 function App() {
   return (
