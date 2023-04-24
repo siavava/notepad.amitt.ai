@@ -22,7 +22,5 @@ which notes contain the search term.
 
 ![main screenshot](./assets/screenshot-01.png)
 
-### Search Feature
-
-![search screenshot](./assets/search.mp4)
+### [Search demo](https://www.loom.com/share/54e50eccb5fd4801aba995794728bbc5)
 
