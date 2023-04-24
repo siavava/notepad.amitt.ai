@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
+import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
+import $ from 'jquery';
 
 // Why does ESLINT complain if this is an arrow function?
 function NewNoteBar(props) {
@@ -13,6 +15,10 @@ function NewNoteBar(props) {
     setText(event.target.value);
   };
 
+  useEffect(() => {
+    props.search(title, text);
+  }, [title, text]);
+
   const clearFields = () => {
     setTitle('');
     setText('');
@@ -21,6 +27,13 @@ function NewNoteBar(props) {
   const saveNote = () => {
     props.addNote({ title, text });
     clearFields();
+  };
+
+  const focusOn = (id) => () => {
+    console.log(`focusing on ${id}`);
+    const note = document.getElementById(`${id}`); // .focus();
+    console.log(note);
+    note.focus();
   };
 
   return (
@@ -38,6 +51,18 @@ function NewNoteBar(props) {
         <button className="note-action" type="button" onClick={clearFields}>
           <img src="assets/cancel-add-note.svg" className="icon" alt="cancel" />
         </button>
+      </div>
+      )}
+      {/* if title has some text, show search results  */}
+      {title
+      && (
+      <div className="search-results">
+        { props.searchResults.map(([id, result]) => (
+          <button className="search-result" key={id} type="button" onClick={focusOn(id)}>
+            <div className="search-result-title">{result.title}</div>
+            <ReactMarkdown className="search-result-text">{result.text || ''}</ReactMarkdown>
+          </button>
+        ))}
       </div>
       )}
     </div>

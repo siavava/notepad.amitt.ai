@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 // import Draggable from 'react-draggable';
 import { Rnd } from 'react-rnd';
 import ReactMarkdown from 'react-markdown';
+import TextareaAutosize from 'react-textarea-autosize';
 
 export default function Note(props) {
   // const {
@@ -64,6 +65,7 @@ export default function Note(props) {
       onResizeStart={elevate}
       className="note"
       style={{ zIndex: note.z }}
+      id={id}
     >
       {isEditing ? (
         <>
@@ -71,19 +73,16 @@ export default function Note(props) {
             type="text"
             value={note.title}
             onChange={(e) => updateTitle(e.target.value)}
-            className="note-title"
+            className="note-title-input"
           />
-          <textarea
+          <TextareaAutosize
             value={note.text}
             onChange={(e) => updateText(e.target.value)}
-            className="note-text"
+            className="note-text-input"
           />
           <div className="note-actions">
             <button className="note-action" type="button" onClick={finishEditing}>
-              Update
-            </button>
-            <button className="note-action" type="button" onClick={() => setIsEditing(false)}>
-              Cancel
+              <img src="/images/tick.svg" className="icon" alt="save" />
             </button>
           </div>
         </>
@@ -93,10 +92,10 @@ export default function Note(props) {
           <ReactMarkdown className="note-text">{note.text || ''}</ReactMarkdown>
           <div className="note-actions">
             <button className="note-action" type="button" onClick={() => setIsEditing(true)}>
-              <img src="assets/edit.svg" className="icon" alt="edit" />
+              <img src="/images/edit.svg" className="icon" alt="edit" />
             </button>
             <button className="note-action" type="button" onClick={deleteNote}>
-              <img src="assets/delete.svg" className="icon" alt="edit" />
+              <img src="/images/delete.svg" className="icon" alt="edit" />
             </button>
           </div>
         </>

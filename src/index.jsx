@@ -45,6 +45,7 @@ root.render(<App />);
 
 function Notes(props) {
   const { notes /* , setNotes */ } = props;
+  const [searchResults, setSearchResults] = useState([]);
 
   const addNote = ({ title, text }) => {
     // const newId = Math.max(...Object.keys(notes).map((id) => parseInt(id, 10))) + 1;
@@ -100,9 +101,36 @@ function Notes(props) {
   //   });
   // };
 
+  function any(arr) {
+    for (let i = 0; i < arr.length; i += 1) {
+      if (arr[i]) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  const search = (title, text) => {
+    if (title || text) {
+      const results = Object.entries(notes).filter(([id, note]) => {
+        const matches = [];
+        matches.push(title ? note.title.toLowerCase().includes(title.toLowerCase()) : false);
+        matches.push(title ? note.text.toLowerCase().includes(title.toLowerCase()) : false);
+        matches.push(text ? note.title.toLowerCase().includes(text.toLowerCase()) : false);
+        matches.push(text ? note.text.toLowerCase().includes(text.toLowerCase()) : false);
+        console.log(matches);
+        return any(matches);
+      });
+      setSearchResults(results);
+      console.log('\n\n\n');
+    } else {
+      setSearchResults([]);
+    }
+  };
+
   return (
     <div className="notes-container">
-      <NewNoteBar addNote={addNote} />
+      <NewNoteBar addNote={addNote} search={search} searchResults={searchResults} />
       <div className="notes">
         { notes && Object.entries(notes).map(([id, note]) => (
           <Note
