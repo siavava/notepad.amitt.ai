@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/database';
-// import { firebase } from '@firebase/app';
+// import { firebase } from 'firebase/app';
 // import { getAnalytics } from 'firebase/analytics';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -23,6 +23,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 export function onNotesValueChange(callback) {
+  // updates
   firebase.database().ref('notes').on('value', (snapshot) => {
     const notes = snapshot.val();
     callback(notes);
