@@ -1,20 +1,13 @@
-# CS52 Lab 3: FireNotes
+# NotePad
 
-[deployed url](https://firenotes-siavava.onrender.com/)
+This site is live at [notepad.amitt.ai](https://notepad.amitt.ai), amd
+is deployed via [Netlify](https://www.netlify.com/).
 
-## What Worked Well
+<div align="center">
 
-Firebase is pretty easy to use.
+[![Netlify Status](https://api.netlify.com/api/v1/badges/f43ca630-d354-4495-8c12-b721b80e41b5/deploy-status)](https://app.netlify.com/sites/stellular-horse-218921/deploys)
 
-
-## What Didn't
-
-Nothing
-
-## Extra Credit
-
-Rudimentary extension: I added a basic search feature that highlights
-which notes contain the search term.
+</div>
 
 ## Screenshots
 
@@ -23,4 +16,3 @@ which notes contain the search term.
 ![main screenshot](./assets/screenshot-01.png)
 
 ### [Search demo](https://www.loom.com/share/54e50eccb5fd4801aba995794728bbc5)
-
