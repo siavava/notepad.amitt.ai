@@ -5,7 +5,7 @@ is deployed via [Netlify](https://www.netlify.com/).
 
 <div align="center">
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/f43ca630-d354-4495-8c12-b721b80e41b5/deploy-status)](https://app.netlify.com/sites/stellular-horse-218921/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/7669a34d-cdec-432a-b73d-d484cf51f3a5/deploy-status)](https://app.netlify.com/sites/splendid-semolina-497a66/deploys)
 
 </div>
 
