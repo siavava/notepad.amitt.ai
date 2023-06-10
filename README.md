@@ -8,7 +8,9 @@ Deployed URL: [`notepad.amitt.ai`](https://notepad.amitt.ai)
 
 ![main screenshot](./assets/screenshot-01.png)
 
-### [Search demo](https://www.loom.com/share/54e50eccb5fd4801aba995794728bbc5)
+### Search Demo: [`link`](https://www.loom.com/share/54e50eccb5fd4801aba995794728bbc5)
+
+### Deploy Status
 
 <div align="center">
 
