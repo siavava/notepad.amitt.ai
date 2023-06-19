@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/database';
+import { NoteType } from '../types';
 // import { firebase } from 'firebase/app';
 // import { getAnalytics } from 'firebase/analytics';
 // TODO: Add SDKs for Firebase products that you want to use
@@ -22,10 +23,16 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-export function onNotesValueChange(callback) {
+export function onNotesValueChange(callback: Function) {
   // updates
+  if (typeof callback !== 'function') {
+    throw new Error('Callback must be a function');
+  }
+
+  if (!firebase.database) throw new Error('Database is not initialized');
+
   firebase.database().ref('notes').on('value', (snapshot) => {
-    const notes = snapshot.val();
+    const notes: Map<string, NoteType> = snapshot.val();
     callback(notes);
   });
 }
@@ -34,7 +41,8 @@ export function onNotesValueChange(callback) {
  * Saves a **new** note to the database.
  * @param {*} note: the note to save.
  */
-export function addNote(note) {
+export function addNote(note: NoteType) {
+  if (!firebase.database) throw new Error('Database is not initialized');
   firebase.database().ref('notes').push(note);
 }
 
@@ -43,8 +51,9 @@ export function addNote(note) {
  * @param {string} id: the id of the note to update.
  * @param {*} updates: the updates to apply.
  */
-export function updateNote(id, updates) {
+export function updateNote(id: string, updates: NoteType) {
   // update only the fields that are passed in the note object
+  if (!firebase.database) throw new Error('Database is not initialized');
   firebase.database().ref('notes').child(id).update(updates);
 }
 
@@ -52,6 +61,7 @@ export function updateNote(id, updates) {
  * Delete an existing note from the database.
  * @param {*} id: the id of the note to delete.
  */
-export function deleteNote(id) {
+export function deleteNote(id: string) {
+  if (!firebase.database) throw new Error('Database is not initialized');
   firebase.database().ref('notes').child(id).remove();
 }

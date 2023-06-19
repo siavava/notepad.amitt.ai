@@ -2,18 +2,19 @@ import React, { useState, useEffect } from 'react';
 // import { produce } from 'immer';
 import NewNoteBar from './new-note-bar';
 import Note from './note';
+import { NoteType } from '../types';
 
 import * as datastore from '../services/datastore';
 
-export default function Notes(props) {
-  const [notes, setNotes] = useState({});
-  const [searchResults, setSearchResults] = useState([]);
+export default function Notes() {
+  const [notes, setNotes] = useState(new Map<string, NoteType>());
+  const [searchResults, setSearchResults] = useState(new Map<string, NoteType>());
   const [highestZIndex, setHighestZIndex] = useState(0);
 
   // on value change, subscribe to firebase notes
   // and update local state any time the notes change.
   useEffect(() => {
-    datastore.onNotesValueChange((newNotes) => {
+    datastore.onNotesValueChange((newNotes: Map<string, NoteType>) => {
       setNotes(newNotes);
     });
   }, []);
@@ -24,8 +25,8 @@ export default function Notes(props) {
     setHighestZIndex(highestZ);
   }, [notes]);
 
-  const addNote = ({ title, text }) => {
-    const fullNote = {
+  const addNote = ({ title, text }: NoteType) => {
+    const fullNote: NoteType = {
       title,
       text,
       x: 50,
@@ -49,7 +50,7 @@ export default function Notes(props) {
     datastore.addNote(fullNote);
   };
 
-  const deleteNote = (id) => {
+  const deleteNote = (id: string) => {
     // ? deprecated: deleting local state, send to firebase instead
     // const deleter = produce((draft) => {
     //   delete draft[id];
@@ -60,7 +61,7 @@ export default function Notes(props) {
     datastore.deleteNote(id);
   };
 
-  const updateNote = (id, updates) => {
+  const updateNote = (id: string, updates: NoteType) => {
     // ? deprecated: updating local state, send to firebase instead
     // const updater = produce((draft) => {
     //   draft[id] = { ...draft[id], ...updates };
@@ -71,7 +72,7 @@ export default function Notes(props) {
     datastore.updateNote(id, updates);
   };
 
-  function any(arr) {
+  function any(arr: any[]) {
     for (let i = 0; i < arr.length; i += 1) {
       if (arr[i]) {
         return true;
@@ -80,20 +81,22 @@ export default function Notes(props) {
     return false;
   }
 
-  const search = (title, text) => {
+  const search = (title: string, text: string) => {
+    const results = new Map<string, NoteType>();
     if (title || text) {
-      const results = Object.entries(notes).filter(([id, note]) => {
-        const matches = [];
-        matches.push(title ? note.title.toLowerCase().includes(title.toLowerCase()) : false);
-        matches.push(title ? note.text.toLowerCase().includes(title.toLowerCase()) : false);
-        matches.push(text ? note.title.toLowerCase().includes(text.toLowerCase()) : false);
-        matches.push(text ? note.text.toLowerCase().includes(text.toLowerCase()) : false);
+      const resultsList = Object.entries(notes).filter(([, note]: [string, NoteType]) => {
+        const matches: any[] = [];
+        matches.push(title ? note.title?.toLowerCase().includes(title.toLowerCase()) : false);
+        matches.push(title ? note.text?.toLowerCase().includes(title.toLowerCase()) : false);
+        matches.push(text ? note.title?.toLowerCase().includes(text.toLowerCase()) : false);
+        matches.push(text ? note.text?.toLowerCase().includes(text.toLowerCase()) : false);
         return any(matches);
       });
-      setSearchResults(results);
-    } else {
-      setSearchResults([]);
+      resultsList.forEach(([id, note]) => {
+        results.set(id, note);
+      });
     }
+    setSearchResults(results);
   };
 
   return (
@@ -111,7 +114,7 @@ export default function Notes(props) {
             style={{ x: note.x, y: note.y, zIndex: note.z }}
             highestZIndex={highestZIndex}
             setHighestZIndex={setHighestZIndex}
-            highlighted={searchResults.map((result) => result[0]).includes(id)}
+            highlighted={searchResults.size && searchResults.has(id)}
           />
         ))}
       </div>

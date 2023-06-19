@@ -1,21 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
-import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
+import ReactMarkdown from 'react-markdown';
+import { NoteType } from '../types';
 
+interface NewNoteBarProps {
+  search: Function;
+  addNote: Function;
+  searchResults: Map<string, NoteType>;
+}
 // Why does ESLINT complain if this is an arrow function?
-export default function NewNoteBar(props) {
+export default function NewNoteBar(props: NewNoteBarProps) {
+  const { search, addNote, searchResults } = props;
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
-  const onTitleChange = (event) => {
-    setTitle(event.target.value);
+  const onTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const target = event.target as HTMLInputElement;
+    setTitle(target.value);
   };
 
-  const onTextChange = (event) => {
-    setText(event.target.value);
+  const onTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    const target = event.target as HTMLTextAreaElement;
+    setText(target.value);
   };
 
   useEffect(() => {
-    props.search(title, text);
+    search(title, text);
   }, [title, text]);
 
   const clearFields = () => {
@@ -24,12 +33,12 @@ export default function NewNoteBar(props) {
   };
 
   const saveNote = () => {
-    props.addNote({ title, text });
+    addNote({ title, text });
     clearFields();
   };
 
-  const focusOn = (id) => () => {
-    const note = document.getElementById(`${id}`); // .focus();
+  const focusOn = (id: string) => () => {
+    const note = document.getElementById(`${id}`)!; // .focus();
     note.focus();
   };
 
@@ -60,7 +69,7 @@ export default function NewNoteBar(props) {
       {title
       && (
       <div className="search-results">
-        { props.searchResults.map(([id, result]) => (
+        { [...searchResults.entries()].map(([id, result]) => (
           <button className="search-result" key={id} type="button" onClick={focusOn(id)}>
             <div className="search-result-title">{result.title}</div>
             <ReactMarkdown className="search-result-text">{result.text || ''}</ReactMarkdown>
